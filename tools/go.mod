@@ -4,6 +4,7 @@ go 1.26.1
 
 require (
 	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1
+    github.com/onsi/ginkgo/v2 v2.19.0
 	go.uber.org/mock v0.4.0
 	gotest.tools/gotestsum v1.13.0
 )
