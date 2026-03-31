@@ -4,7 +4,6 @@ go 1.26.1
 
 require (
 	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1
-    github.com/onsi/ginkgo/v2 v2.19.0
 	go.uber.org/mock v0.4.0
 	gotest.tools/gotestsum v1.13.0
 )
@@ -26,6 +25,7 @@ require (
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/oasdiff/yaml v0.0.0-20250309154309-f31be36b4037 // indirect
 	github.com/oasdiff/yaml3 v0.0.0-20250309153720-d2182401db90 // indirect
+	github.com/onsi/gomega v1.33.1 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/speakeasy-api/jsonpath v0.6.0 // indirect
 	github.com/speakeasy-api/openapi-overlay v0.10.2 // indirect
