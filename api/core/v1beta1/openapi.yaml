@@ -1,0 +1,431 @@
+openapi: 3.1.0
+info:
+  title: Swagger conmpliance as code server - OpenAPI 3.1
+  description: |-
+    This is a sample config as code Server based on the OpenAPI 3.1 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). 
+
+    Some useful links:
+    - [The Compliance as Code repository](https://github.com/rprakashg/cac)
+    - [The source API definition for the Pet Store](https://github.com/rprakashg/cac/blob/main/src/main/api/core/v1alpha1/openapi.yaml)
+
+  termsOfService: https://swagger.io/terms/
+  contact:
+    email: apiteam@rprakashg.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+  - url: https://cac.rprakashg.io/api/v3
+tags:
+  - name: Policy
+    description: Everything about your compliance policies
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+
+paths:
+  /policies:
+    x-resource: policies
+    get:
+      operationId: listPolicies
+      tags:
+        - Policy
+      description: List all compliance policies
+      parameters:
+        - name: continue
+          in: query
+          description: An optional parameter to query more results from the server. The value of the paramter must match the value of the 'continue' field in the previous list response.
+          required: false
+          schema:
+            type: string
+        - name: labelSelector
+          in: query
+          description: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+          schema:
+            type: string
+        - name: fieldSelector
+          in: query
+          description: A selector to restrict the list of returned objects by their fields, supporting operators like '=', '==', and '!=' (e.g., "key1=value1,key2!=value2").
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The maximum number of results returned in the list response. The server will set the 'continue' field in the list response if more results exist. The continue value may then be specified as parameter in a subsequent query.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyList'
+        
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Status'
+
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+
+        "429":
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+
+        "503":
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+     
+    post:
+      operationId: createPolicy
+      description: Create policy resource
+      
+  /policies/{name}:  
+
+components:
+  schemas:
+    AbsolutePath:
+      type: object
+      description: Represents an absolute file path.
+      properties:
+        path:
+          type: string
+          description: The absolute path to a file on the system. Note that any existing file will be overwritten.
+          examples: 
+            - "/var/log/app.log"
+
+    ApiVersion:
+      type: string
+      x-go-type: string
+      description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources.'
+      enum:
+        - v1beta1
+        - cac.rprakashg.io/v1beta1
+    
+    ComplianceStatus:
+      type: object
+      properties:
+        compliant:
+          type: boolean
+          description: Boolean indicating target is compliant against this Policy
+          examples:
+            - true
+            - false
+    
+    Condition:
+      description: Condition contains details for one aspect of the current state of this API Resource.
+      allOf:
+        - $ref: '#/components/schemas/ConditionBase'
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              $ref: '#/components/schemas/ConditionType'
+    
+    ConditionBase:
+      type: object
+      description: Base condition structure following Kubernetes API conventions. Use with allOf to add a specific type enum.
+      required:
+        - status
+        - lastTransitionTime
+        - reason
+        - message
+      properties:
+        status:
+          $ref: '#/components/schemas/ConditionStatus'
+        observedGeneration:
+          type: integer
+          format: int64
+          description: The .metadata.generation that the condition was set based upon.
+        lastTransitionTime:
+          type: string
+          format: date-time
+          description: The last time the condition transitioned from one status to another.
+        message:
+          type: string
+          description: Human readable message indicating details about last transition.
+        reason:
+          type: string
+          description: A (brief) reason for the condition's last transition.
+
+    ConditionType:
+      type: string
+      description: Type of condition in CamelCase.
+      enum:
+        - Propogating
+        - Enforcing
+        
+    ConditionStatus:
+      type: string
+      description: Status of the condition, one of True, False, Unknown.
+      enum:
+      - 'True'
+      - 'False'
+      - 'Unknown'
+      x-enum-varnames:
+      - 'ConditionStatusTrue'
+      - 'ConditionStatusFalse'
+      - 'ConditionStatusUnknown'    
+
+    EncodingType:
+      type: string
+      description: Specifies the encoding type used for data representation.
+      enum:
+        - plain
+        - base64
+      x-enum-varnames:
+        - "EncodingPlain"
+        - "EncodingBase64"
+
+    EntityKind:
+      type: string
+      description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds.'
+      enum: 
+        - Policy
+        - PolicyList   
+      x-enum-varnames:
+        - policy
+        - policylist
+
+    FileSpec:
+      allOf:
+        - $ref: "#/components/schemas/FileContent"
+        - $ref: "#/components/schemas/FileMetadata"
+        - $ref: "#/components/schemas/AbsolutePath"
+        - type: object
+          required:
+            - path
+            - content
+    
+    FileContent:
+      description: The content of a file.
+      type: object
+      properties:
+        content:
+          type: string
+          description: The plain text (UTF-8) or base64-encoded content of the file.
+        contentEncoding:
+          $ref: "#/components/schemas/EncodingType"
+    
+    FileMetadata:
+      description: File metadata.
+      type: object
+      properties:
+        mode:
+          type: integer
+          description: The file's permission mode. You may specify the more familiar octal with a leading zero (e.g., 0644) or as a decimal without a leading zero (e.g., 420). Setuid/setgid/sticky bits are supported. If not specified, the permission mode for files defaults to 0644.
+        user:
+          type: string
+          description: The file's owner, specified either as a name or numeric ID. Defaults to "root".
+          x-go-type: Username
+          x-go-type-skip-optional-pointer: true
+        group:
+          type: string
+          description: The file's group, specified either as a name or numeric ID. Defaults to "root".
+          x-go-type-skip-optional-pointer: true
+
+    ListMeta:
+      type: object
+      properties:
+        continue:
+          type: string
+          description: May be set if the user set a limit on the number of items returned, and indicates that the server has more data available. The value is opaque and may be used to issue another request to the endpoint that served this list to retrieve the next set of available objects. Continuing a consistent list may not be possible if the server configuration has changed or more than a few minutes have passed. The resourceVersion field returned when using this continue value will be identical to the value in the first response, unless you have received this token from an error message.
+        remainingItemCount:
+          type: integer
+          description: The number of subsequent items in the list which are not included in this list response. If the list request contained label or field selectors, then the number of remaining items is unknown and the field will be left unset and omitted during serialization. If the list is complete (either because it is not chunking or because this is the last chunk), then there are no more remaining items and this field will be left unset and omitted during serialization. Servers older than v1.15 do not set this field. The intended use of the remainingItemCount is *estimating* the size of a collection. Clients should not rely on the remainingItemCount to be set or to be exact.
+          format: int64
+      description: ListMeta describes metadata that synthetic resources must have, including lists and various status objects. A resource may have only one of {ObjectMeta, ListMeta}.
+
+    ObjectMeta:
+      type: object
+      properties:
+        creationTimestamp:
+          type: string
+          description: The time the object was created.
+          format: date-time
+        deletionTimestamp:
+          type: string
+          description: The time the object will be deleted.
+          format: date-time
+        name:
+          type: string
+          description: The name of the object.
+        labels:
+          type: object
+          description: Map of string keys and values that can be used to organize and categorize (scope and select) objects.
+          additionalProperties:
+            type: string
+        generation:
+          type: integer
+          description: A sequence number representing a specific generation of the desired state. Populated by the system. Read-only.
+          format: int64
+        owner:
+          type: string
+          description: A resource that owns this resource, in "kind/name" format.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties set by the service.
+        resourceVersion:
+          type: string
+          description: An opaque string that identifies the server's internal version of an object.
+      description: ObjectMeta is metadata that all persisted resources    must have, which includes all objects users must create.
+    
+    PolicySpec:
+      type: object
+      description: Governance policy resource spec
+      properties:
+        remediationAction:
+          type: string
+          description: Action to be taken for remediation
+          enum:
+            - enforce
+            - inform
+          x-enum-varnames:
+            - enforce
+            - inform
+        disabled:
+          type: boolean
+          default: false
+          description: Weather this compliance policy is disabled
+        rego:
+          $ref: '#/components/schemas/RegoFileSpec'
+      required:
+        - remediationAction
+        - disabled
+        - rego
+    Policy:
+      type: object
+      properties:
+        apiVersion:
+          $ref: '#/components/schemas/ApiVersion'
+        kind:
+          $ref: '#/components/schemas/EntityKind'
+        metadata:
+          $ref: '#/components/schemas/ObjectMeta' 
+        spec:
+          $ref: '#/components/schemas/PolicySpec'
+        status:
+          $ref: '#/components/schemas/PolicyStatus'
+      required:
+        - apiVersion
+        - kind
+        - metadata
+
+    PolicyList:
+      type: object
+      properties:
+        apiVersion:
+          $ref: '#/components/schemas/ApiVersion'
+        kind:
+          $ref: '#/components/schemas/EntityKind'  
+        metadata:
+          $ref: '#/components/schemas/ListMeta'
+        items:
+          type: array
+          description: 'List of Devices.'
+          items:
+            $ref: '#/components/schemas/Policy'
+
+    PolicyStatus:
+      type: object
+      description: Represents status information about governance policy
+      properties:
+        conditions:
+          type: array
+          description: Conditions represent the observations of a the current state of a device.
+          items:
+            $ref: '#/components/schemas/Condition'
+        status:
+          $ref: '#/components/schemas/ComplianceStatus'
+
+    RegoFileSpec:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the rego policy document
+        inline:
+          $ref: '#/components/schemas/FileSpec'
+
+    RelativePath:
+      type: object
+      description: Represents a relative file path.
+      properties:
+        path:
+          type: string
+          description: A relative file path on the system. Note that any existing file will be overwritten.
+          examples: 
+            - "src/index.js"
+    Status:
+      type: object
+      properties:
+        apiVersion:
+          $ref: '#/components/schemas/ApiVersion'
+        kind:
+          type: string
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds.'
+        code:
+          type: integer
+          format: int32
+          description: Suggested HTTP return code for this status, 0 if not set.
+        message:
+          type: string
+          description: A human-readable description of the status of this operation.
+        reason:
+          type: string
+          description: A machine-readable description of why this operation is in the "Failure" status. If this value is empty there is no information available. A Reason clarifies an HTTP status code but does not override it.
+        status:
+          type: string
+          description: 'Status of the operation. One of: "Success" or "Failure". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status.'
+      description: Status is a return value for calls that don't return other objects.
+      required:
+        - apiVersion
+        - kind
+        - status
+        - code
+        - reason
+        - message
+
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
