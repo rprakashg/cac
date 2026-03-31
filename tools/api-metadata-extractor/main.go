@@ -474,7 +474,7 @@ package {{.Package}}
 import (
 	"time"
 
-	"github.com/flightctl/flightctl/internal/apimetadata"
+	"github.com/rprakashg/cac/internal/apimetadata"
 )
 
 {{- if .ResourceConsts}}

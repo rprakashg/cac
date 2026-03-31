@@ -7,15 +7,13 @@ import (
 
 	"github.com/rprakashg/cac/internal/apimetadata"
 )
-
 const (
 	API_RESOURCE_POLICIES = "policies"
 )
 const (
 	API_ACTION_CREATE = "create"
-	API_ACTION_LIST   = "list"
+	API_ACTION_LIST = "list"
 )
-
 // timePtr is a helper to create time.Time pointers
 func timePtr(year, month, day int) *time.Time {
 	t := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
@@ -51,3 +49,4 @@ var APIMetadataMap = map[string]*apimetadata.EndpointMetadata{
 // MetadataResolver provides lookup for endpoint metadata.
 // Use MetadataResolver.Resolve(r) to get metadata from an HTTP request.
 var MetadataResolver = apimetadata.NewStaticResolver(ServerURLPrefixes, APIMetadataMap)
+

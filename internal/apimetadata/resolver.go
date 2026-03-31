@@ -1,5 +1,4 @@
 package apimetadata
-package apimetadata
 
 import (
 	"net/http"
