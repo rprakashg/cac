@@ -4,6 +4,7 @@ go 1.26.1
 
 require (
 	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1
+	github.com/onsi/ginkgo/v2 v2.17.2
 	go.uber.org/mock v0.4.0
 	gotest.tools/gotestsum v1.13.0
 )
@@ -17,6 +18,8 @@ require (
 	github.com/getkin/kin-openapi v0.133.0 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
+	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
+	github.com/google/pprof v0.0.0-20240424215950-a892ee059fd6 // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
