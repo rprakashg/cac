@@ -12,7 +12,11 @@ const (
 )
 const (
 	API_ACTION_CREATE = "create"
+	API_ACTION_DELETE = "delete"
+	API_ACTION_GET = "get"
 	API_ACTION_LIST = "list"
+	API_ACTION_PATCH = "patch"
+	API_ACTION_UPDATE = "update"
 )
 // timePtr is a helper to create time.Time pointers
 func timePtr(year, month, day int) *time.Time {
@@ -40,6 +44,38 @@ var APIMetadataMap = map[string]*apimetadata.EndpointMetadata{
 		OperationID: "createPolicy",
 		Resource:    "policies",
 		Action:      "create",
+		Versions: []apimetadata.EndpointMetadataVersion{
+			{Version: "1.0.12", DeprecatedAt: nil},
+		},
+	},
+	"DELETE:/policies/{name}": {
+		OperationID: "deletePolicyByName",
+		Resource:    "policies",
+		Action:      "delete",
+		Versions: []apimetadata.EndpointMetadataVersion{
+			{Version: "1.0.12", DeprecatedAt: nil},
+		},
+	},
+	"GET:/policies/{name}": {
+		OperationID: "getPolicyByName",
+		Resource:    "policies",
+		Action:      "get",
+		Versions: []apimetadata.EndpointMetadataVersion{
+			{Version: "1.0.12", DeprecatedAt: nil},
+		},
+	},
+	"PATCH:/policies/{name}": {
+		OperationID: "patchPolicy",
+		Resource:    "policies",
+		Action:      "patch",
+		Versions: []apimetadata.EndpointMetadataVersion{
+			{Version: "1.0.12", DeprecatedAt: nil},
+		},
+	},
+	"PUT:/policies/{name}": {
+		OperationID: "updatePolicy",
+		Resource:    "policies",
+		Action:      "update",
 		Versions: []apimetadata.EndpointMetadataVersion{
 			{Version: "1.0.12", DeprecatedAt: nil},
 		},
