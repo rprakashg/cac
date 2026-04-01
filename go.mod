@@ -7,6 +7,7 @@ require (
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/google/go-cmp v0.7.0
 	github.com/oapi-codegen/runtime v1.3.1
+	github.com/samber/lo v1.53.0
 	gorm.io/gorm v1.31.1
 	k8s.io/klog/v2 v2.130.1
 )

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/rprakashg/fcac/internal/domain"
+	"github.com/rprakashg/cac/internal/domain"
 	"gorm.io/gorm"
 )
 
