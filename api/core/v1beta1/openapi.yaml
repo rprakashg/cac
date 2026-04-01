@@ -637,7 +637,7 @@ components:
       properties:
         conditions:
           type: array
-          description: Conditions represent the observations of a the current state of a device.
+          description: Conditions represent the observations of a the current state of a governance policy resource.
           items:
             $ref: '#/components/schemas/Condition'
         status:

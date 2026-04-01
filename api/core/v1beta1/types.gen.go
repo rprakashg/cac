@@ -230,7 +230,7 @@ type PolicySpecRemediationAction string
 
 // PolicyStatus Represents status information about governance policy
 type PolicyStatus struct {
-	// Conditions Conditions represent the observations of a the current state of a device.
+	// Conditions Conditions represent the observations of a the current state of a governance policy resource.
 	Conditions *[]Condition      `json:"conditions,omitempty"`
 	Status     *ComplianceStatus `json:"status,omitempty"`
 }
