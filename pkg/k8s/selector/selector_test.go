@@ -28,9 +28,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/flightctl/flightctl/pkg/k8s/selector/selection"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/rprakashg/cac/pkg/k8s/selector/selection"
 	k8sLabels "k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/validation/field"

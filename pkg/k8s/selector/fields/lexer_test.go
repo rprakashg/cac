@@ -3,7 +3,7 @@ package fields
 import (
 	"testing"
 
-	"github.com/flightctl/flightctl/pkg/k8s/selector"
+	"github.com/rprakashg/cac/pkg/k8s/selector"
 )
 
 func TestLexer(t *testing.T) {

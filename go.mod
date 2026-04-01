@@ -3,7 +3,6 @@ module github.com/rprakashg/cac
 go 1.26.1
 
 require (
-	github.com/flightctl/flightctl v1.0.2
 	github.com/getkin/kin-openapi v0.134.0
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/google/go-cmp v0.7.0
@@ -14,6 +13,7 @@ require (
 
 require (
 	github.com/go-logr/logr v1.4.3 // indirect
+	github.com/go-test/deep v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	golang.org/x/text v0.30.0 // indirect

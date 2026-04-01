@@ -29,8 +29,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/flightctl/flightctl/pkg/k8s/selector/selection"
 	"github.com/google/uuid"
+	"github.com/rprakashg/cac/pkg/k8s/selector/selection"
 	k8sLabels "k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/validation/field"
